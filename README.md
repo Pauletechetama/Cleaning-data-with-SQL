@@ -26,3 +26,5 @@ To check if this is the case, i used the LENGTH statement to determine the lengt
 # https://console.cloud.google.com/bigquery?sq=909859753623:f4f8dac8ef4b4ca39056604566f320e7
 According to the results, some instances of the 4wd string have four characters instead of the expected three (4wd has 3 characters). In that case, i used the TRIM function to remove all extra spaces in the drive_wheels column (using the update and set clause). Then,i ran the SELECT DISTINCT statement again to ensure that there are only three distinct values in the drive_wheels column.
 And now there is only three unique values in this column! Which means my data is clean, consistent, and ready for analysis! 
+# Summary
+Before you can perform your analysis, you’ll need to make sure your data is clean. If you analyze dirty data, you could end up presenting the wrong analysis to investors. That may cause them to lose money on their investment. A dirty data can create errors or skew your results during analysis. I Carefully and successfully inspected all necessary columns and properly cleaned them for further analysis using SQL.
