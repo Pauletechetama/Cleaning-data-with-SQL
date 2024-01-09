@@ -1,2 +1,28 @@
 # Cleaning-data-with-SQL
 This repository shows how I cleaned a dataset with SQL.
+# About the project and dataset
+In this project i cleaned an automobile dataset using SQL. The dataset is a used car dealership startup venture with over 10 columns in which the investors want to find out which cars are most popular with customers. In this project i will be creating a custom dataset and table, import a .CSV file and use SQL queries to clean the automobile data. Below is the link to the dataset, this is data from an external source that contains historical sales data on car prices and their features.
+# https://docs.google.com/spreadsheets/d/1U3ktsROmhoCZG3Yz5xFLnjJmzm-MgBYYxwt4xcb6d3o/template/preview
+# Description
+I logged into BigQuery and proceeded to create a dataset and a custom table to house the data. Downloaded the data and created a dataset from the explorer pane in my workspace under my personal project. From the 'create dataset menu', i filled out some information about the dataset eg Dataset ID as 'cars' then created the dataset. The newly created dataset is now visible on the explorer pane and i went ahead to open it in order to create a custom table for the insertion of the downloaded data. From the 'cars dataset info window' i created a table and within the 'create table window' i filled out the informations eg uploading the .csv documents from 'source', dataset name as 'cars', table as 'car_info', schema to Auto-Detect then created the table. I explored the newly created table 'car_info' eg schema, details to get familiar with the data before querying.
+I proceeded to clean the data by inspecting each column. According to the data description, the fuel_column should only have 2 unique string values 'diesel and gas'. To make sure thats true i ran a query to confirm. Below is the link to the query. Running this query confirms the fuel_type does not have any unexpected values.
+# https://console.cloud.google.com/bigquery?sq=909859753623:4ba980ea10fc4879a1c524eb23c627e0 
+Next i inspected a column with numerical data 'the length column' which contains numerical measurements of the cars. According to the data description, the lengths in this column (maximum and minimun) should range from 141.1 to 208.1. To make sure this is true i ran a query to confirm. Below is the link to the query. Running this query confirms the expected range.
+# https://console.cloud.google.com/bigquery?sq=909859753623:fa6965c07e70485f823be161e1c459d1
+Next i looked out for missing data/ null values because missing values can create errors and skew your results during analysis. I ran the below query for the 'num_of_doors' column.
+# https://console.cloud.google.com/bigquery?sq=909859753623:5ab0965425ad4fc29936a6c32ce39db7
+This brought out 2 Null results. In order to fill in these missing values i checked with the sales manager who confirmed that the above results should be 4 instead of null so i proceeded to update the values using the 'update' clause.
+Next i checked for potential errors in the 'num_of_cylinders' column with the below query.The result of the below query shows a misspelling error of two as 'tow' in roll 7. To correct this i ran a query using the 'update and set' clause.
+# https://console.cloud.google.com/bigquery?sq=909859753623:4b871ca4937e4f3d86d57131a2f1291e
+According to the data description, the compression_ratio column values should range from 7 to 23 (maximum and minimum). i ran the below query to confirm
+# https://console.cloud.google.com/bigquery?sq=909859753623:f75c76b20df64d4eb372c752396c3684
+The result of this returns a maximum of 70 which is an error because maximum should be 23, i ran another query without the row with 70 to make sure that the rest of the values fall within the expected range. Link below
+# https://console.cloud.google.com/bigquery?sq=909859753623:2da2b191126542b2a9ff614fa1eed330
+Now the highest value is 23, which aligns with the data description. So to correct the 70 value, I check with the sales manager again, who says that this row was made in error and should be removed. Before i deleted anything, I checked to see how many rows contain this erroneous value as a precaution so that i don’t end up deleting 50% of the data. I Used the query below to count how many rows i would be deleting. Turns out there is only one row with the erroneous 70 value. To delete that row i used the 'delete' clause
+# https://console.cloud.google.com/bigquery?sq=909859753623:708accf2a7ff4248859ed768f3c214f1
+Finally i checked for data inconsistencies that might cause errors.i checked the drive_wheels column for inconsistency by running the below query. It appears that 4wd appears twice in results. However, because i used a SELECT DISTINCT statement to return unique values, this probably means there’s an extra space in one of the 4wd entries that makes it different from the other 4wd. 
+# https://console.cloud.google.com/bigquery?sq=909859753623:0adfcba06df54dde92b1534da1ebe15d
+To check if this is the case, i used the LENGTH statement to determine the length of how long each of these string variables are. The link is below. 
+# https://console.cloud.google.com/bigquery?sq=909859753623:f4f8dac8ef4b4ca39056604566f320e7
+According to the results, some instances of the 4wd string have four characters instead of the expected three (4wd has 3 characters). In that case, i used the TRIM function to remove all extra spaces in the drive_wheels column (using the update and set clause). Then,i ran the SELECT DISTINCT statement again to ensure that there are only three distinct values in the drive_wheels column.
+And now there is only three unique values in this column! Which means my data is clean, consistent, and ready for analysis! 
